@@ -53,7 +53,7 @@ class _AdminLoginState extends State<AdminLogin> {
                         elevation: 3.0,
                         borderRadius: BorderRadius.circular(20),
                         child: Container(
-                          height: MediaQuery.of(context).size.height,
+                          height: 400,
                           decoration: BoxDecoration(
                             color: Colors.white,
                             borderRadius: BorderRadius.circular(20),
@@ -88,7 +88,8 @@ class _AdminLoginState extends State<AdminLogin> {
                                                 255, 160, 160, 147))),
                                   ),
                                 ),
-                              ),SizedBox(
+                              ),
+                              SizedBox(
                                 height: 20,
                               ),
                               Container(
@@ -120,26 +121,33 @@ class _AdminLoginState extends State<AdminLogin> {
                               SizedBox(
                                 height: 40,
                               ),
-                      GestureDetector(
-                        onTap: (){
-                          LoginAdmin();
-                        },
-                        child: Container(
-                          padding: EdgeInsets.symmetric(vertical: 8),
-                          margin: EdgeInsets.symmetric(horizontal: 20),
-                          width: MediaQuery.of(context).size.width,
-                          decoration: BoxDecoration(
-                            color: Colors.black,
-                            borderRadius: BorderRadius.circular(10),
-                          ),
-                          child: Text("Login", style: TextStyle(color: Colors.white, fontSize: 20, fontWeight: FontWeight.bold),),
-                        ),
-                      )
+                              GestureDetector(
+                                onTap: () {
+                                  LoginAdmin();
+                                },
+                                child: Container(
+                                  padding: EdgeInsets.symmetric(vertical: 8),
+                                  margin: EdgeInsets.symmetric(horizontal: 20),
+                                  width: MediaQuery.of(context).size.width,
+                                  decoration: BoxDecoration(
+                                    color: Colors.black,
+                                    borderRadius: BorderRadius.circular(10),
+                                  ),
+                                  child: Center(
+                                    child: Text(
+                                      "Login",
+                                      style: TextStyle(
+                                          color: Colors.white,
+                                          fontSize: 20,
+                                          fontWeight: FontWeight.bold),
+                                    ),
+                                  ),
+                                ),
+                              )
                             ],
                           ),
                         ),
                       ),
-                      
                     ],
                   ),
                 ),
@@ -150,18 +158,22 @@ class _AdminLoginState extends State<AdminLogin> {
       ),
     );
   }
-  LoginAdmin(){
-    FirebaseFirestore.instance.collection("Admin").get().then((snapshot){
-      snapshot.docs.forEach((result) { 
-        if(result.data()['id']!=user_name_controller.text.trim()){
-          ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text('Your id is not correct'),));
-        }
-        else if(result.data()['password']!=password_controller.text.trim()){
-          ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text('Your password is not correct'),));
-        }
-        else{
-          Router route = MaterialPageRoute(builder: (context)=> AddQuiz()) as Router;
-            Navigator.pushReplacement(context, route as Route<Object?>);
+
+  LoginAdmin() {
+    FirebaseFirestore.instance.collection("Admin").get().then((snapshot) {
+      snapshot.docs.forEach((result) {
+        if (result.data()['id'] != user_name_controller.text.trim()) {
+          ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+            content: Text('Your id is not correct'),
+          ));
+        } else if (result.data()['password'] !=
+            password_controller.text.trim()) {
+          ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+            content: Text('Your password is not correct'),
+          ));
+        } else {
+          Route route = MaterialPageRoute(builder: (context) => AddQuiz());
+          Navigator.pushReplacement(context, route);
         }
       });
     });
